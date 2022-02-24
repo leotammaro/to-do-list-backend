@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = 3001;
 const mongoose = require("mongoose");
 const Task = require("./models/Task.js");
 const cors = require("cors");
@@ -65,6 +64,6 @@ app.put("/task", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.listen(port, () => {
-  console.log(`To do list running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`To do list running on port ${process.env.PORT}`);
 });
