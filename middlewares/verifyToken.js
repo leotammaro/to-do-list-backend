@@ -1,0 +1,18 @@
+const { getAuth } = require("firebase-admin/auth");
+
+const verifyToken = (req, res, next) => {
+  console.log(req.headers);
+  const { authorization } = req.headers;
+  getAuth()
+    .verifyIdToken(authorization || "")
+    .then((decodedToken) => {
+      const uid = decodedToken.uid;
+      res.locals.uid = uid;
+      next();
+    })
+    .catch((error) => {
+      res.send("error").status(400);
+    });
+};
+
+module.exports = { verifyToken };
