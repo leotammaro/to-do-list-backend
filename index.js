@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const Task = require("./models/Task.js");
 const cors = require("cors");
 const admin = require("firebase-admin");
-const serviceAccount = require("./firebase-admin.json");
 const { verifyToken } = require("./middlewares/verifyToken");
 
 admin.initializeApp({
