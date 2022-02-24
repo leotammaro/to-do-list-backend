@@ -3,9 +3,6 @@ const express = require("express");
 const app = express();
 const port = 3001;
 const mongoose = require("mongoose");
-const { model, Schema } = require("mongoose");
-const password = require("./passwords");
-const handleErrors = require("./middlewares/handleErrors");
 const Task = require("./models/Task.js");
 const cors = require("cors");
 const admin = require("firebase-admin");
@@ -69,5 +66,5 @@ app.put("/task", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`To do list running on port ${port}`);
 });
