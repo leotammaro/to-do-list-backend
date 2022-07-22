@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
       next();
     })
     .catch((error) => {
-      res.send("error").status(400);
+      res.send("unauthorized").status(400);
     });
 };
 
