@@ -10,7 +10,7 @@ const { verifyToken } = require("./middlewares/verifyToken");
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\n/g, "\n"),
+    privateKey: process.env.FIREBASE_PRIVATE_KEY ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, "\n") : undefined,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   }),
 });
@@ -19,14 +19,13 @@ mongoose.connect(process.env.MONGO_URI);
 
 app.use(express.json());
 app.use(cors());
-
 app.use(verifyToken);
 
 app.get("/tasks", (req, res) => {
   const { uid } = res.locals;
   Task.find({ uidUser: uid })
     .then((results) => {
-      res.json(results);
+      res.status(200).json(results);
     })
     .catch((err) => console.log(err));
 });
@@ -34,7 +33,7 @@ app.get("/tasks", (req, res) => {
 app.delete("/task", (req, res) => {
   const { _id } = req.body;
   Task.findByIdAndDelete(_id)
-    .then((response) => res.json(response).sendStatus(200))
+    .then((response) => res.status(200).json(response))
     .catch(() => res.sendStatus(500));
 });
 
@@ -48,7 +47,7 @@ app.post("/tasks", (req, res) => {
   });
   newTask
     .save()
-    .then((response) => res.json(response).sendStatus(200))
+    .then((response) => res.status(200).json(response))
     .catch((err) => console.log(err));
 });
 
@@ -63,7 +62,7 @@ app.put("/task", (req, res) => {
     },
     { new: true }
   )
-    .then((response) => res.json(response).sendStatus(200))
+    .then((response) => res.status(200).json(response))
     .catch((err) => console.log(err));
 });
 
